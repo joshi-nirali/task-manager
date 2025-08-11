@@ -1,15 +1,11 @@
 import React from "react";
 import DroppableColumn from "./DroppableColumn";
+import "../styles/TaskBoard.css";
 
 const TaskBoard = ({ tasksByStatus, statuses, onDelete, overId, handleEditTask }) => {
     return (
-        <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '16px',
-            padding: '0 16px'
-        }}>
-            {statuses.map((status) => (
+        <div className="task-grid">
+            {statuses?.map((status) => (
                 <DroppableColumn
                     key={status.key}
                     status={status}

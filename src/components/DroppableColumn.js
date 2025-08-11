@@ -3,18 +3,13 @@ import SortableTaskCard from "./SortableTaskCard";
 import { useDroppable } from "@dnd-kit/core";
 
 const DroppableColumn = ({ status, tasks, onDelete, isOver, handleEditTask }) => {
-    console.log(`DroppableColumn ${status.key} received tasks:`, tasks);
-
-    // Use the useDroppable hook to make the entire column droppable
     const { setNodeRef: setDroppableRef, isOver: isDroppableOver } = useDroppable({
         id: status.key,
     });
 
-    // Enhanced safety check and filter out invalid tasks
     if (!Array.isArray(tasks)) {
-        console.error(`DroppableColumn ${status.key}: tasks is not an array:`, tasks);
         return (
-            <div style={{ padding: '0 8px' }}>
+            <div>
                 <h2 style={{
                     fontSize: '18px',
                     fontWeight: '600',
@@ -49,9 +44,6 @@ const DroppableColumn = ({ status, tasks, onDelete, isOver, handleEditTask }) =>
 
     const taskIds = validTasks.map(task => String(task.id));
 
-    console.log(`DroppableColumn ${status.key}: ${validTasks.length}/${tasks.length} valid tasks, IDs:`, taskIds);
-
-    // Debug logging
     if (tasks.length !== validTasks.length) {
         console.warn(`DroppableColumn ${status.key}: Found ${tasks.length - validTasks.length} invalid tasks`);
     }
@@ -59,13 +51,15 @@ const DroppableColumn = ({ status, tasks, onDelete, isOver, handleEditTask }) =>
     const isColumnOver = isOver || isDroppableOver;
 
     return (
-        <div style={{ padding: '0 8px' }}>
+        <div className="w-[320px]">
             <h2 style={{
-                fontSize: '18px',
-                fontWeight: '600',
-                color: '#374151',
+                fontSize: '20px',
+                fontWeight: '700',
+                color: '#1f2937',
                 marginBottom: '16px',
-                textAlign: 'center'
+                textAlign: 'center',
+                textTransform: 'uppercase',
+                letterSpacing: '1px',
             }}>
                 {status.label} ({tasks?.length || 0})
             </h2>
@@ -73,12 +67,13 @@ const DroppableColumn = ({ status, tasks, onDelete, isOver, handleEditTask }) =>
             <div
                 ref={setDroppableRef}
                 style={{
-                    backgroundColor: isColumnOver ? '#dbeafe' : '#f3f4f6',
-                    borderRadius: '8px',
+                    backgroundColor: isColumnOver ? '#e0f2fe' : '#f9fafb',
+                    borderRadius: '12px',
                     padding: '16px',
                     minHeight: '400px',
-                    transition: 'background-color 0.2s ease',
-                    border: isColumnOver ? '2px dashed #3b82f6' : '2px solid transparent'
+                    transition: 'background-color 0.3s ease, box-shadow 0.3s ease',
+                    border: isColumnOver ? '2px dashed #38bdf8' : '2px solid #e5e7eb',
+                    boxShadow: isColumnOver ? '0 4px 12px rgba(56, 189, 248, 0.3)' : '0 2px 6px rgba(0, 0, 0, 0.1)',
                 }}
             >
                 <SortableContext items={taskIds} strategy={verticalListSortingStrategy}>
@@ -113,13 +108,14 @@ const DroppableColumn = ({ status, tasks, onDelete, isOver, handleEditTask }) =>
                         <div style={{
                             textAlign: 'center',
                             color: '#9ca3af',
-                            fontSize: '14px',
+                            fontSize: '16px',
                             fontStyle: 'italic',
                             padding: '40px 20px',
                             minHeight: '100px',
                             display: 'flex',
                             alignItems: 'center',
-                            justifyContent: 'center'
+                            justifyContent: 'center',
+                            width: '280px'
                         }}>
                             {isColumnOver ? 'Drop here...' : 'No tasks'}
                         </div>

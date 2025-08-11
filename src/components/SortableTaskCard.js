@@ -11,14 +11,10 @@ const SortableTaskCard = ({ task, index, onDelete, statusKey, handleEditTask }) 
         listeners,
         setNodeRef,
         transform,
-        transition,
         isDragging,
     } = useSortable({ id: taskId });
 
-    console.log('SortableTaskCard props:', { task, index, onDelete: !!onDelete, statusKey });
-
     if (!task) {
-        console.error('SortableTaskCard: task is null/undefined');
         return (
             <div ref={setNodeRef} style={{ padding: '10px', backgroundColor: '#ffebee', marginBottom: '12px' }}>
                 Error: Invalid task
@@ -44,13 +40,16 @@ const SortableTaskCard = ({ task, index, onDelete, statusKey, handleEditTask }) 
         );
     }
 
-    console.log('Using task ID:', taskId);
-
     const style = {
         transform: CSS.Transform.toString(transform),
-        transition,
-        opacity: isDragging ? 0.5 : 1,
+        opacity: isDragging ? 0.8 : 1,
         marginBottom: '12px',
+        backgroundColor: isDragging ? '#e0f2fe' : '#ffffff',
+        borderRadius: '8px',
+        boxShadow: isDragging ? '0 4px 12px rgba(56, 189, 248, 0.3)' : '0 2px 6px rgba(0, 0, 0, 0.1)',
+        cursor: isDragging ? 'grabbing' : 'pointer',
+        padding: '12px',
+        transition: 'background-color 0.3s ease, box-shadow 0.3s ease',
     };
 
     return (
@@ -59,7 +58,7 @@ const SortableTaskCard = ({ task, index, onDelete, statusKey, handleEditTask }) 
                 size="small"
                 title={task.title || "Untitled Task"}
                 extra={
-                    <Space size="small">
+                    <Space size="small" className="ml-2">
                         <Tooltip title="Edit Task">
                             <Button
                                 type="default"
